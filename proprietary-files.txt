@@ -114,9 +114,7 @@ vendor/etc/audio/sku_holi/sound_trigger_platform_info.xml
 
 # Audio FX modules
 vendor/lib/soundfx/libasphere.so
-vendor/lib/soundfx/libmisoundfx.so
 vendor/lib/soundfx/libshoebox.so
-vendor/lib64/soundfx/libmisoundfx.so
 
 # Bluetooth
 vendor/bin/hw/android.hardware.bluetooth@1.0-service-qti

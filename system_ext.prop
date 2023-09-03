@@ -1,12 +1,15 @@
 # DPM
 persist.vendor.dpm.feature=11
 
-
 # Fwk detect
 ro.vendor.qti.va_aosp.support=1
-
 
 # Telephony
 ro.com.android.dataroaming=false
 ro.com.android.mobiledata=false
 telephony.active_modems.max_count=2
+
+# VoLTE / VoWifi
+persist.dbg.volte_avail_ovr=1
+persist.dbg.vt_avail_ovr=1
+persist.dbg.wfc_avail_ovr=1

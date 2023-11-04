@@ -65,6 +65,9 @@ function blob_fixup() {
         vendor/etc/libnfc-hal-st.conf)
             sed -i "s/STNFC_HAL_LOGLEVEL=0x13/STNFC_HAL_LOGLEVEL=0x12/g" "${2}"
             ;;
+        vendor/lib64/libvendor.goodix.hardware.biometrics.fingerprint@2.1.so)
+            sed -i "s/libhidltransport.so/libhidlbase_shim.so/" "${2}"
+            ;;
         vendor/lib64/camera/components/com.qti.node.mialgocontrol.so)
             grep -q "libpiex_shim.so" "${2}" || "${PATCHELF}" --add-needed "libpiex_shim.so" "${2}"
             ;;

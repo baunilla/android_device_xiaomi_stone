@@ -157,7 +157,8 @@ PRODUCT_PACKAGES += \
     android.hardware.biometrics.fingerprint@2.3-service.xiaomi
 
 PRODUCT_PACKAGES += \
-    com.fingerprints.extension@1.0.vendor
+    com.fingerprints.extension@1.0.vendor \
+    libhidlbase_shim
 
 # FM
 PRODUCT_PACKAGES += \

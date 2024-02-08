@@ -73,7 +73,7 @@ DEVICE_MANIFEST_FILE := \
     $(DEVICE_PATH)/manifest.xml
 
 DEVICE_MATRIX_FILE := \
-    $(DEVICE_PATH)/compatibility_matrix.xml
+    hardware/qcom-caf/common/compatibility_matrix.xml
 
 # Kernel
 BOARD_KERNEL_BASE := 0x00000000

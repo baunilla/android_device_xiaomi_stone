@@ -10,3 +10,4 @@ ro.product.odm.marketname=Redmi Note 12R Pro
 ro.product.marketname=Redmi Note 12R Pro
 # end sku build properties
 ro.product.board=sunstone
+bluetooth.device.default_name=Redmi Note 12R Pro

@@ -102,14 +102,13 @@ BOARD_KERNEL_CMDLINE := \
     firmware_class.path=/vendor/firmware
 
 TARGET_KERNEL_CONFIG := holi_QGKI
-TARGET_KERNEL_SOURCE := kernel/xiaomi/sm6375
+TARGET_KERNEL_SOURCE := $(DEVICE_PATH)-kernel/kernel-headers
 TARGET_KERNEL_NO_GCC := true
 
 # Prebuilt Kernel
+TARGET_NO_KERNEL_OVERRIDE := true
 BOARD_KERNEL_BINARIES := kernel
 BOARD_PREBUILT_DTBOIMAGE := $(DEVICE_PATH)-kernel/dtbo.img
-TARGET_FORCE_PREBUILT_KERNEL := true
-TARGET_PREBUILT_KERNEL := $(DEVICE_PATH)-kernel/kernel
 BOARD_PREBUILT_DTBIMAGE_DIR := $(DEVICE_PATH)-kernel/dtb
 PRODUCT_COPY_FILES += \
     $(DEVICE_PATH)-kernel/kernel:kernel \

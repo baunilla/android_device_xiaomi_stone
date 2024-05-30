@@ -171,5 +171,5 @@ service vendor.msm_irqbalance /vendor/bin/msm_irqbalance -f /system/vendor/etc/m
     group root
     disabled
 
-on property:init.svc.vendor.charger=running
+on charger
     start kernel-post-boot

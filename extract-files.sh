@@ -62,9 +62,6 @@ function blob_fixup() {
             sed -i "s/0x10080/0/g" "${2}"
             sed -i "s/0x1F/0x0/g" "${2}"
             ;;
-        vendor/etc/init/init.batterysecret.rc)
-            sed -i "s/on charger/on property:init.svc.vendor.charger=running/g" "${2}"
-            ;;
         vendor/etc/libnfc-hal-st.conf)
             sed -i "s/STNFC_HAL_LOGLEVEL=0x13/STNFC_HAL_LOGLEVEL=0x12/g" "${2}"
             ;;

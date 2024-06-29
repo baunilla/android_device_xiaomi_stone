@@ -37,14 +37,6 @@ prebuilt_etc_xml {
 }
 
 prebuilt_etc_xml {
-	name: "media_codecs_vendor_audio.xml",
-	owner: "xiaomi",
-	src: "media_codecs_vendor_audio.xml",
-	filename_from_src: true,
-	vendor: true,
-}
-
-prebuilt_etc_xml {
 	name: "media_profiles_blair.xml",
 	owner: "xiaomi",
 	src: "media_profiles_blair.xml",

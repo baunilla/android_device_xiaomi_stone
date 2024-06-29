@@ -254,18 +254,11 @@ PRODUCT_PACKAGES += \
     media_codecs_blair_lite.xml \
     media_codecs_performance_blair.xml \
     media_codecs_performance_blair_lite.xml \
-    media_codecs_vendor_audio.xml \
     media_profiles_blair.xml \
     media_profiles_blair_lite.xml \
     video_system_specs.json \
     video_system_specs_blair.json \
     video_system_specs_blair_lite.json
-
-PRODUCT_COPY_FILES += \
-    frameworks/av/media/libstagefright/data/media_codecs_google_audio.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_codecs_google_audio.xml \
-    frameworks/av/media/libstagefright/data/media_codecs_google_telephony.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_codecs_google_telephony.xml \
-    frameworks/av/media/libstagefright/data/media_codecs_google_video.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_codecs_google_video.xml \
-    frameworks/av/media/libstagefright/data/media_codecs_google_video_le.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_codecs_google_video_le.xml
 
 # Net
 PRODUCT_PACKAGES += \

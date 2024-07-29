@@ -202,6 +202,13 @@ PRODUCT_PACKAGES += \
     ipacm \
     IPACM_cfg.xml
 
+# Input
+PRODUCT_PACKAGES += \
+    uinput-fpc.idc \
+    uinput-fpc.kl \
+    uinput-goodix.idc \
+    uinput-goodix.kl
+
 # IR
 PRODUCT_PACKAGES += \
     android.hardware.ir@1.0-impl \

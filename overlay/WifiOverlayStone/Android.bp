@@ -4,7 +4,6 @@
 //
 
 runtime_resource_overlay {
-    name: "CarrierConfigOverlayCOMMON",
-    aaptflags: ["--keep-raw-values"],
-    product_specific: true,
+    name: "WifiOverlayStone",
+    vendor: true,
 }

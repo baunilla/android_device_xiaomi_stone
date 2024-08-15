@@ -4,6 +4,6 @@
      SPDX-License-Identifier: Apache-2.0
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.android.systemui.overlay.veux">
-    <overlay android:targetPackage="com.android.systemui" />
+    package="android.overlay.stone">
+    <overlay android:targetPackage="android" />
 </manifest>

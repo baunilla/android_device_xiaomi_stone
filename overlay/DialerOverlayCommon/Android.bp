@@ -4,6 +4,6 @@
 //
 
 runtime_resource_overlay {
-    name: "SettingsOverlayVEUX",
-    vendor: true,
+    name: "DialerOverlayCommon",
+    product_specific: true,
 }

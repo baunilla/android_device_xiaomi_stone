@@ -1,1 +1,1 @@
-require board=veux|peux
+require board=sunstone|moonstone|stone

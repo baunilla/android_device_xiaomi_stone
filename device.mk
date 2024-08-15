@@ -127,7 +127,7 @@ PRODUCT_PACKAGES += \
     vendor.qti.hardware.display.mapper@2.0.vendor
 
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/configs/display_id_4630947081618265473.xml:$(TARGET_COPY_OUT_VENDOR)/etc/displayconfig/display_id_4630947081618265473.xml
+    $(LOCAL_PATH)/configs/display_id_4630947218746568833.xml:$(TARGET_COPY_OUT_VENDOR)/etc/displayconfig/display_id_4630947218746568833.xml
 
 # DRM
 PRODUCT_PACKAGES += \
@@ -255,16 +255,16 @@ PRODUCT_PACKAGES += \
 PRODUCT_ENFORCE_RRO_TARGETS := *
 
 PRODUCT_PACKAGES += \
-    CarrierConfigOverlayCOMMON \
-    DialerOverlayCOMMON \
-    TelephonyOverlayCOMMON
+    CarrierConfigOverlayCommon \
+    DialerOverlayCommon \
+    TelephonyOverlayCommon
 
 PRODUCT_PACKAGES += \
-    FrameworkOverlayVEUX \
-    LineageSDKOverlayVEUX \
-    SettingsOverlayVEUX \
-    SystemUIOverlayVEUX \
-    WifiOverlayVEUX
+    FrameworkOverlayStone \
+    LineageSDKOverlayStone \
+    SettingsOverlayStone \
+    SystemUIOverlayStone \
+    WifiOverlayStone
 
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/overlay/config-vendor.xml:$(TARGET_COPY_OUT_VENDOR)/overlay/config/config.xml
@@ -371,6 +371,13 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     android.frameworks.sensorservice@1.0.vendor
 
+# SKU properties
+PRODUCT_COPY_FILES += \
+    $(call find-copy-subdir-files,*,$(LOCAL_PATH)/configs/sku,$(TARGET_COPY_OUT_ODM)/etc)
+
+PRODUCT_COPY_FILES += \
+    $(call find-copy-subdir-files,*,$(LOCAL_PATH)/configs/sku,$(TARGET_COPY_OUT_RECOVERY)/root)
+
 # Shipping API level
 PRODUCT_SHIPPING_API_LEVEL := 30
 
@@ -448,4 +455,4 @@ PRODUCT_BOOT_JARS += \
     WfdCommon
 
 # Inherit from proprietary targets
-$(call inherit-product, vendor/xiaomi/veux/veux-vendor.mk)
+$(call inherit-product, vendor/xiaomi/stone/stone-vendor.mk)

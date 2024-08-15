@@ -4,7 +4,7 @@
 //
 
 cc_library {
-    name: "libgptutils.veux",
+    name: "libgptutils.stone",
     cflags: ["-D_BSG_FRAMEWORK_KERNEL_HEADERS"],
     export_include_dirs: ["."],
     header_libs: ["qti_kernel_headers"],

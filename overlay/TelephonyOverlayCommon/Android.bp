@@ -4,6 +4,6 @@
 //
 
 runtime_resource_overlay {
-    name: "WifiOverlayVEUX",
-    vendor: true,
+    name: "TelephonyOverlayCommon",
+    product_specific: true,
 }

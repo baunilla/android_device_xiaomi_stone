@@ -5,4 +5,4 @@
 #
 
 PRODUCT_MAKEFILES := \
-    $(LOCAL_DIR)/lineage_veux.mk
+    $(LOCAL_DIR)/lineage_stone.mk

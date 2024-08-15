@@ -8,7 +8,7 @@
 
 set -e
 
-DEVICE=veux
+DEVICE=stone
 VENDOR=xiaomi
 
 # Load extract_utils and do some sanity checks
@@ -55,10 +55,6 @@ fi
 
 function blob_fixup() {
     case "${1}" in
-        odm/etc/build_*.prop)
-            sed -i "/marketname/d" "${2}"
-            sed -i "s/cert/model/" "${2}"
-            ;;
         system_ext/etc/init/wfdservice.rc)
             sed -i "/^service/! s/wfdservice$/wfdservice64/g" "${2}"
             ;;

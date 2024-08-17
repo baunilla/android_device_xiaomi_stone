@@ -100,7 +100,6 @@ PRODUCT_PACKAGES += \
     vendor.qti.hardware.camera.postproc@1.0.vendor
 
 PRODUCT_PACKAGES += \
-    libpiex_shim \
     libutilscallstack.vendor
 
 # DebugFS
@@ -147,8 +146,7 @@ PRODUCT_PACKAGES += \
     android.hardware.biometrics.fingerprint@2.3-service.xiaomi
 
 PRODUCT_PACKAGES += \
-    com.fingerprints.extension@1.0.vendor \
-    libhidlbase_shim
+    com.fingerprints.extension@1.0.vendor
 
 # FM
 PRODUCT_PACKAGES += \

@@ -32,14 +32,10 @@
 
 # Fingerprint
 /dev/goodix_fp                                                                 u:object_r:vendor_fingerprint_device:s0
-/dev/silead_fp                                                                 u:object_r:vendor_fingerprint_device:s0
-/dev/silead_stub                                                               u:object_r:vendor_fingerprint_device:s0
 /dev/spidev0.0                                                                 u:object_r:vendor_fingerprint_device:s0
 /data/vendor/goodix(/.*)?                                                      u:object_r:fingerprint_vendor_data_file:s0
-/data/vendor/silead(/.*)?                                                      u:object_r:fingerprint_vendor_data_file:s0
 /data/vendor_de/[0-9]+/goodix(/.*)?                                            u:object_r:fingerprint_vendor_data_file:s0
 /vendor/bin/hw/android\.hardware\.biometrics\.fingerprint@2\.3-service\.xiaomi u:object_r:hal_fingerprint_default_exec:s0
-/vendor/bin/hw/vendor\.silead\.hardware\.fingerprintext@1\.0-service           u:object_r:hal_fingerprint_default_exec:s0
 
 # IR
 /dev/ir_spi                                                                    u:object_r:ir_spi_device:s0
@@ -48,8 +44,8 @@
 /(vendor|system/vendor)/bin/mlipayd@1.1                                        u:object_r:hal_mlipay_default_exec:s0
 
 # NFC
-/dev/pn553                                                                     u:object_r:nfc_device:s0
-/vendor/bin/hw/android\.hardware\.nfc-service\.nxp                             u:object_r:hal_nfc_default_exec:s0
+/dev/st21nfc                                                                   u:object_r:nfc_device:s0
+/vendor/bin/hw/android\.hardware\.nfc-service\.st                              u:object_r:hal_nfc_default_exec:s0
 
 # Sensors
 /vendor/bin/hw/android\.hardware\.sensors@2.1-service\.xiaomi-multihal         u:object_r:hal_sensors_default_exec:s0

@@ -1,13 +1,9 @@
-# Audio
-genfscon sysfs /module/aw882xx_dlkm/parameters/smartpa_type                        u:object_r:vendor_sysfs_audio:s0
-
 # Battery
 genfscon sysfs /devices/platform/soc/soc:qcom_wt_chg                               u:object_r:vendor_sysfs_battery_supply:s0
 
 # Fingerprint
 genfscon sysfs /devices/platform/soc/soc:fpc1020                                   u:object_r:vendor_sysfs_fingerprint:s0
 genfscon sysfs /devices/platform/soc/soc:goodix_fp                                 u:object_r:vendor_sysfs_fingerprint:s0
-genfscon sysfs /devices/platform/soc/soc:silead_fp                                 u:object_r:vendor_sysfs_fingerprint:s0
 
 # Touchpanel
 genfscon proc /tp_gesture                                                          u:object_r:proc_touchpanel:s0

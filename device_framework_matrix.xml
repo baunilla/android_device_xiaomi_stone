@@ -4,6 +4,22 @@
 -->
 <compatibility-matrix version="2.0" type="framework">
     <hal format="hidl" optional="true">
+        <name>com.fingerprints.extension</name>
+        <version>1.0</version>
+        <interface>
+            <name>IFingerprintEngineering</name>
+            <instance>default</instance>
+        </interface>
+        <interface>
+            <name>IFingerprintNavigation</name>
+            <instance>default</instance>
+        </interface>
+        <interface>
+            <name>IFingerprintSensorTest</name>
+            <instance>default</instance>
+        </interface>
+    </hal>
+    <hal format="hidl" optional="true">
         <name>vendor.goodix.hardware.biometrics.fingerprint</name>
         <version>2.0-1</version>
         <interface>
@@ -22,14 +38,6 @@
             <name>IqcriNvOpt</name>
             <instance>qcrinvopt0</instance>
             <instance>qcrinvopt1</instance>
-        </interface>
-    </hal>
-    <hal format="hidl" optional="true">
-        <name>vendor.silead.hardware.fingerprintext</name>
-        <version>1.0</version>
-        <interface>
-            <name>ISileadFingerprint</name>
-            <instance>default</instance>
         </interface>
     </hal>
     <hal format="hidl" optional="true">

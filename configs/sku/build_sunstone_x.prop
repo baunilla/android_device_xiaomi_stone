@@ -11,3 +11,4 @@ ro.product.marketname=Redmi Note 12R Pro
 # end sku build properties
 ro.product.board=sunstone
 bluetooth.device.default_name=Redmi Note 12R Pro
+vendor.media.target_variant=_blair_lite

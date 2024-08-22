@@ -1,0 +1,87 @@
+//
+// Copyright (C) 2024 The LineageOS Project
+//
+// SPDX-License-Identifier: Apache-2.0
+//
+
+prebuilt_etc_xml {
+	name: "media_codecs_blair.xml",
+	owner: "xiaomi",
+	src: "media_codecs_blair.xml",
+	filename_from_src: true,
+	vendor: true,
+}
+
+prebuilt_etc_xml {
+	name: "media_codecs_blair_lite.xml",
+	owner: "xiaomi",
+	src: "media_codecs_blair_lite.xml",
+	filename_from_src: true,
+	vendor: true,
+}
+
+prebuilt_etc_xml {
+	name: "media_codecs_performance_blair.xml",
+	owner: "xiaomi",
+	src: "media_codecs_performance_blair.xml",
+	filename_from_src: true,
+	vendor: true,
+}
+
+prebuilt_etc_xml {
+	name: "media_codecs_performance_blair_lite.xml",
+	owner: "xiaomi",
+	src: "media_codecs_performance_blair_lite.xml",
+	filename_from_src: true,
+	vendor: true,
+}
+
+prebuilt_etc_xml {
+	name: "media_codecs_vendor_audio.xml",
+	owner: "xiaomi",
+	src: "media_codecs_vendor_audio.xml",
+	filename_from_src: true,
+	vendor: true,
+}
+
+prebuilt_etc_xml {
+	name: "media_profiles_blair.xml",
+	owner: "xiaomi",
+	src: "media_profiles_blair.xml",
+	filename_from_src: true,
+	vendor: true,
+}
+
+prebuilt_etc_xml {
+	name: "media_profiles_blair_lite.xml",
+	owner: "xiaomi",
+	src: "media_profiles_blair_lite.xml",
+	filename_from_src: true,
+	vendor: true,
+}
+
+prebuilt_etc {
+	name: "video_system_specs.json",
+	owner: "xiaomi",
+	src: "video_system_specs.json",
+	filename_from_src: true,
+	vendor: true,
+}
+
+prebuilt_etc {
+	name: "video_system_specs_blair.json",
+	owner: "xiaomi",
+	src: "video_system_specs_blair.json",
+	filename: "video_system_specs.json",
+	sub_dir: "media_blair",
+	vendor: true,
+}
+
+prebuilt_etc {
+	name: "video_system_specs_blair_lite.json",
+	owner: "xiaomi",
+	src: "video_system_specs_blair.json",
+	filename: "video_system_specs.json",
+	sub_dir: "media_blair_lite",
+	vendor: true,
+}

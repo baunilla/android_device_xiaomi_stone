@@ -11,3 +11,4 @@ ro.product.marketname=Redmi Note 12 5G
 # end sku build properties
 ro.product.board=sunstone
 bluetooth.device.default_name=Redmi Note 12 5G
+vendor.media.target_variant=_blair_lite

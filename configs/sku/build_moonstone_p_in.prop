@@ -11,3 +11,4 @@ ro.product.marketname=POCO X5 5G
 # end sku build properties
 ro.product.board=moonstone
 bluetooth.device.default_name=POCO X5 5G
+vendor.media.target_variant=_blair

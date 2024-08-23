@@ -5,6 +5,12 @@
 //
 
 prebuilt_etc {
+    name: "charger_fstab.qti",
+    src: "etc/charger_fstab.qti",
+    vendor: true,
+}
+
+prebuilt_etc {
     name: "fstab.default",
     src: "etc/fstab.default",
     vendor: true,
@@ -33,6 +39,13 @@ prebuilt_etc {
 }
 
 prebuilt_etc {
+    name: "init.stnfc.rc",
+    src: "etc/init.stnfc.rc",
+    sub_dir: "init/hw",
+    vendor: true,
+}
+
+prebuilt_etc {
     name: "init.target.rc",
     src: "etc/init.target.rc",
     sub_dir: "init/hw",
@@ -47,7 +60,51 @@ prebuilt_etc {
 }
 
 sh_binary {
-    name: "init.kernel.post_boot-blair.sh",
+    name: "init.class_main.sh",
+    src: "bin/init.class_main.sh",
+    vendor: true,
+}
+
+sh_binary {
+    name: "init.kernel.post_boot.sh",
+    filename: "init.kernel.post_boot.sh",
     src: "bin/init.kernel.post_boot-blair.sh",
     vendor: true,
 }
+
+sh_binary {
+    name: "init.qcom.early_boot.sh",
+    src: "bin/init.qcom.early_boot.sh",
+    vendor: true,
+}
+
+sh_binary {
+    name: "init.qcom.post_boot.sh",
+    src: "bin/init.qcom.post_boot.sh",
+    vendor: true,
+}
+
+sh_binary {
+    name: "init.qcom.sh",
+    src: "bin/init.qcom.sh",
+    vendor: true,
+}
+
+sh_binary {
+    name: "init.qti.early_init.sh",
+    src: "bin/init.qti.early_init.sh",
+    vendor: true,
+}
+
+sh_binary {
+    name: "init.qti.kernel.sh",
+    src: "bin/init.qti.kernel.sh",
+    vendor: true,
+}
+
+sh_binary {
+    name: "vendor_modprobe.sh",
+    src: "bin/vendor_modprobe.sh",
+    vendor: true,
+}
+

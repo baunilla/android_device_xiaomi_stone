@@ -29,6 +29,13 @@
 #
 import /vendor/etc/init/hw/init.qti.kernel.rc
 
+on early-init
+    exec u:r:vendor_modprobe:s0 -- /vendor/bin/vendor_modprobe.sh
+    exec u:r:vendor_modprobe:s0 -- /vendor/bin/modprobe -a -d /vendor/lib/modules q6_pdr_dlkm q6_notifier_dlkm snd_event_dlkm apr_dlkm adsp_loader_dlkm q6_dlkm native_dlkm pinctrl_lpi_dlkm swr_dlkm platform_dlkm stub_dlkm wcd_core_dlkm wsa881x_analog_dlkm bolero_cdc_dlkm va_macro_dlkm rx_macro_dlkm tx_macro_dlkm bt_fm_slim wcd938x_dlkm wcd938x_slave_dlkm wcd937x_dlkm wcd937x_slave_dlkm sipa_dlkm machine_dlkm radio-i2c-rtc6226-qca cdsprm
+    exec u:r:vendor_qti_init_shell:s0 -- /vendor/bin/init.qti.early_init.sh
+    setprop ro.soc.model ${ro.vendor.qti.soc_model}
+    wait /sys/devices/soc0/soc_id
+
 on init
     # Scheduler uclamp
     mkdir /dev/cpuctl/foreground
@@ -54,87 +61,190 @@ on init
     write /dev/cpuctl/background/cpu.rt_runtime_us 950000
     write /dev/cpuctl/top-app/cpu.rt_runtime_us 950000
     write /dev/cpuctl/rt/cpu.rt_runtime_us 950000
+    # wcnssr enable HQ-208869 wait for p2
+    # write /sys/bus/msm_subsys/devices/subsys2/restart_level related
 
     wait /dev/block/platform/soc/${ro.boot.bootdevice}
     symlink /dev/block/platform/soc/${ro.boot.bootdevice} /dev/block/bootdevice
+    start logd
 
-    chown system system /sys/class/qcom-battery/charging_call_state
-    chmod 0660 /sys/class/qcom-battery/charging_call_state
+    chmod 666 /sys/module/camera/drivers/platform:CAM-FLASH-DRIVER/5c1b000.qcom,cci0:qcom,camera-flash@0/ktd2691_flash
+
+on early-fs
+    start vold
 
 on fs
+    start hwservicemanager
     mount_all --early
     chown root system /mnt/vendor/persist
     chmod 0771 /mnt/vendor/persist
     restorecon_recursive /mnt/vendor/persist
     mkdir /mnt/vendor/persist/data 0700 system system
+    mkdir /mnt/vendor/persist/wlan 0700 system system
+    chmod 0700 /mnt/vendor/persist/wlan
+
+    mkdir /mnt/rescue 0771 system system
+    mount ext4 /dev/block/platform/soc/4804000.ufshc/by-name/rescue /mnt/rescue noatime
+    chown system system /mnt/rescue
+    chmod 0771 /mnt/rescue
+    
+on post-fs
+    # set RLIMIT_MEMLOCK to 64MB
+    setrlimit 8 67108864 67108864
 
 on late-fs
     wait_for_prop hwservicemanager.ready true
+    #exec_start wait_for_keymaster
     mount_all --late
 
 on post-fs-data
     mkdir /vendor/data/tombstones 0771 system system
+
+    #zhangxiaodan To create thermal and config directories, you must first create thermal and then create config
+    mkdir /data/vendor/.tp/ 0775 system system
     mkdir /data/vendor/thermal 0771 root system
     mkdir /data/vendor/thermal/config 0771 root system
+ 
+    # BSP.Charge - 2022.06.16 - add charge_logger
+    mkdir /data/vendor/charge_logger 0771 system system
+    
+    # BSP.System - 2022.6.3 - Add cust.img
+    mkdir /mnt/cust 0775 system system
+    mount ext4 /dev/block/platform/soc/4804000.ufshc/by-name/cust  /mnt/cust rw nosuid nodev barrier=1
+    chown system system /mnt/cust
+    chmod 0775 /mnt/cust
+
+	# BSP.System - 2022.6.3 - Add opcust.img
+    mkdir /mnt/opcust 0775 system system
+    mount ext4 /dev/block/platform/soc/4804000.ufshc/by-name/opcust  /mnt/opcust rw nosuid nodev barrier=1
+    chown system system /mnt/opcust
+    chmod 0775 /mnt/opcust
+    
+    # BSP.System - 2022.6.3 - Add opconfig.img
+    mkdir /mnt/opconfig 0775 system system
+    mount ext4 /dev/block/platform/soc/4804000.ufshc/by-name/opconfig  /mnt/opconfig rw nosuid nodev barrier=1
+    chown system system /mnt/opconfig
+    chmod 0775 /mnt/opconfig
+
+    #HQ-232630
+   #QCC mode configuration
+    setprop vendor.qti.qdma.oper.mode 3
+    
+on early-boot
+    start vendor.sensors
+    # M17-T code for HQ-267809 by dongshuai at 2022.12.8 start
+     verity_update_state
+    # M17-T code for HQ-267809 by dongshuai at 2022.12.8 end
+
+# add PcbaConfigSet by wanggang8
+service pcbaconfig /system/vendor/bin/PcbaConfigSet
+    class core
+    user root
+    group root system vendor_qti_diag
+    oneshot
+
 
 on boot
-    mkdir /mnt/vendor/persist/audio 0777 system system
-    chmod 0666 /sys/bus/i2c/drivers/aw882xx_smartpa/3-0034/cali
-    chmod 0666 /sys/bus/i2c/drivers/aw882xx_smartpa/3-0034/cali_f0
-    chmod 0666 /sys/bus/i2c/drivers/aw882xx_smartpa/3-0034/cali_re
-    chmod 0666 /sys/bus/i2c/drivers/aw882xx_smartpa/3-0034/dsp_re
-    chmod 0666 /sys/bus/i2c/drivers/aw882xx_smartpa/3-0035/cali
-    chmod 0666 /sys/bus/i2c/drivers/aw882xx_smartpa/3-0035/cali_f0
-    chmod 0666 /sys/bus/i2c/drivers/aw882xx_smartpa/3-0035/cali_re
-    chmod 0666 /sys/bus/i2c/drivers/aw882xx_smartpa/3-0035/dsp_re
+    chown system system /sys/class/drm/card0-DSI-1/doze_brightness
+    chmod 0664 /sys/class/drm/card0-DSI-1/doze_brightness
+    chown system system /sys/class/drm/card0-DSI-1/disp_param
+    chmod 0664 /sys/class/drm/card0-DSI-1/disp_param
+    chown system system /sys/class/drm/card0-DSI-1/mipi_reg
+    chmod 0664 /sys/class/drm/card0-DSI-1/mipi_reg
+    chown system system /sys/class/drm/card0-DSI-1/panel_info
+    chmod 0444 /sys/class/drm/card0-DSI-1/panel_info
+    ##start Pcba
+    start pcbaconfig
+    chown root root /vendor/bin/PcbaConfigSet
+    write /dev/cpuset/audio-app/cpus 1-2
+    # Add a cpuset for the camera daemon
+    # We want all cores for camera
+    mkdir /dev/cpuset/camera-daemon
+    write /dev/cpuset/camera-daemon/cpus 0-7
+    write /dev/cpuset/camera-daemon/mems 0
+    chown cameraserver cameraserver /dev/cpuset/camera-daemon
+    chown cameraserver cameraserver /dev/cpuset/camera-daemon/tasks
+    chmod 0660 /dev/cpuset/camera-daemon/tasks
+    #USB controller configuration
+    setprop vendor.usb.rndis.func.name "gsi"
+    setprop vendor.usb.rmnet.func.name "gsi"
+    setprop vendor.usb.rmnet.inst.name "rmnet"
+    setprop vendor.usb.dpl.inst.name "dpl"
+    setprop vendor.usb.qdss.inst.name "qdss_mdm"
+    setprop vendor.usb.controller 4e00000.dwc3
+    chmod 0777 /sys/bus/coresight/devices/coresight-tmc-etr/block_size
+    chmod 0777 /dev/byte-cntr
+    #add fot factory HBM/AOD
+    chmod 0777 /sys/class/drm/card0-DSI-1/disp_param
+    chmod 0777 /sys/class/drm/card0-DSI-1/mipi_reg
 
-    chmod 0666 /sys/bus/i2c/drivers/fs19xx/3-0036/cali_f0
-    chmod 0666 /sys/bus/i2c/drivers/fs19xx/3-0036/cali_re
-    chmod 0666 /sys/bus/i2c/drivers/fs19xx/3-0037/cali_f0
-    chmod 0666 /sys/bus/i2c/drivers/fs19xx/3-0037/cali_re
-
-    chmod 0644 /mnt/vendor/persist/audio/aw_cali.bin
-    chmod 0644 /mnt/vendor/persist/audio/fsm_calib.bin
-
-    mkdir /data/vendor_de/0/goodix 0770 system system
-
-    chown system system /sys/bus/platform/devices/soc:fpc1020/hw_reset
-    chown system system /sys/bus/platform/devices/soc:fpc1020/irq
-    chown system system /sys/bus/platform/devices/soc:fpc1020/wakeup_enable
-    chown system system /sys/bus/platform/devices/soc:fpc1020/regulator_enable
-    chown system system /sys/bus/platform/devices/soc:fpc1020/compatible_all
-
-    chmod 0644 /sys/bus/platform/devices/soc:fpc1020/hw_reset
-    chmod 0644 /sys/bus/platform/devices/soc:fpc1020/irq
-    chmod 0644 /sys/bus/platform/devices/soc:fpc1020/wakeup_enable
-    chmod 0644 /sys/bus/platform/devices/soc:fpc1020/regulator_enable
-    chmod 0644 /sys/bus/platform/devices/soc:fpc1020/compatible_all
+    #zhangxiaodan To realize the communication between framework and thermal, we need to implement sys node in kernel
     chown system system /sys/class/thermal/thermal_message/sconfig
 
+    # add for fingerprint
+    chown system system /sys/bus/platform/devices/soc/soc:fpc1020/compatible_all
+    chmod 0666 /sys/bus/platform/devices/soc/soc:fpc1020/compatible_all
+    chown system system /sys/bus/platform/devices/soc/soc:fpc1020/irq
+    chmod 0666 /sys/bus/platform/devices/soc/soc:fpc1020/irq
+    chown system system /sys/bus/platform/devices/soc/soc:fpc1020/hw_reset
+    chmod 0666 /sys/bus/platform/devices/soc/soc:fpc1020/hw_reset
+    chown system system /sys/bus/platform/devices/soc/soc:fpc1020/wakeup_enable
+    chmod 0666 /sys/bus/platform/devices/soc/soc:fpc1020/wakeup_enable
+    chown system system /sys/bus/platform/devices/soc/soc:fpc1020/power_ctrl
+    chmod 0666 /sys/bus/platform/devices/soc/soc:fpc1020/power_ctrl
+    chown system system /sys/bus/platform/devices/soc/soc:fpc1020/screen
+    chmod 0666 /sys/bus/platform/devices/soc/soc:fpc1020/screen
+    chown system system /sys/bus/platform/devices/soc/soc:fpc1020/fingerdown_wait
+    chmod 0666 /sys/bus/platform/devices/soc/soc:fpc1020/fingerdown_wait
+
+    # add for ignoring adsp crash
+    write /sys/bus/msm_subsys/devices/subsys0/restart_level related
+
+    # add for touchscreen
+    chown system system /sys/bus/i2c/drivers/fts_ts/2-0038/fts_edge_mode
+    chmod 0666 /sys/bus/i2c/drivers/fts_ts/2-0038/fts_edge_mode
+    chown system system /sys/bus/i2c/devices/2-0038/fts_charger_mode
+    chmod 0666 /sys/bus/i2c/devices/2-0038/fts_charger_mode
+    chown system system /sys/bus/i2c/devices/2-0038/fts_rw_reg
+    chmod 0666 /sys/bus/i2c/devices/2-0038/fts_rw_reg
+
+    chmod 0666 /dev/goodix_fp
+    chown system system /dev/goodix_fp
+    # add perm for calib
     mkdir /mnt/vendor/persist/camera 0777 system system
-    chmod 0666 /mnt/vendor/persist/camera/rear_dc_cal_wu.bin
+    chmod 0777 /data/vendor/camera
+    chmod 0666 /mnt/vendor/persist/camera/rear_dc_cal_wd.bin
     chmod 0666 /data/vendor/camera/com.xiaomi.dcal.wu.data
 
-#add perm for calib
-    chmod 0777 /data/vendor/camera
+    # M17-T code for HQ-249321 by zhangzhaopei at 2022/10/21 start
+    setprop vendor.camera.aux.packagelist org.codeaurora.snapcam,com.huaqin.factory,com.xiaomi.cameratest,com.mi.AutoTest
+    # M17-T code for HQ-249321 by zhangzhaopei at 2022/10/21 end
 
-#for silead fingeprint 
-    mkdir /data/vendor/silead 0777 system system
-    chown system system /dev/silead_fp
-    chmod 0660 /dev/silead_fp
-    chown system system /dev/spidev1.0
-    chmod 0660 /dev/spidev1.0
-    chown system system /dev/silead_stub
-    chmod 0660 /dev/silead_stub
+    # M17-T code for HQ-238216 by qiantao at 2022/11/3 start
+    #touch funtions permissions setting
+    chown system system /sys/class/touch/touch_dev/palm_sensor
+    chmod 0664 /sys/class/touch/touch_dev/palm_sensor
+    # M17-T code for HQ-238216 by qiantao at 2022/11/3 end
 
-#for goodix dump
-    mkdir /data/vendor/goodix 0777 system system
+on property:vendor.display.lcd_density=560
+   setprop dalvik.vm.heapgrowthlimit 256m
+
+on property:vendor.display.lcd_density=640
+   setprop dalvik.vm.heapgrowthlimit 512m
 
 on boot && property:persist.vendor.usb.controller.default=*
     setprop vendor.usb.controller ${persist.vendor.usb.controller.default}
 
 on property:init.svc.vendor.charger=running
+    mount_all /vendor/etc/charger_fstab.qti --early
+    write /sys/kernel/boot_adsp/boot 1
+    #restart charger after ADSP is out of reset
+    restart charger
     start vendor.power_off_alarm
+    setprop sys.usb.controller 4e00000.dwc3
+    setprop sys.usb.configfs 1
+
+    #thermal
     start mi_thermald
 
 #pd-mapper
@@ -156,13 +266,95 @@ service vendor.per_proxy /vendor/bin/pm-proxy
     group system
     disabled
 
+#service vendor.mdm_helper /vendor/bin/mdm_helper
+#    class core
+#    group system wakelock
+#    disabled
+
+service vendor.mdm_launcher /vendor/bin/sh /vendor/bin/init.mdm.sh
+    class core
+    oneshot
+
+# xionghaifeng 20221104 HQ-261662 & HQ-253656 add for CN SSR set on IN
+on property:ro.vendor.miui.build.region=in
+    setprop persist.vendor.ssr.restart_level ALL_ENABLE
+
+# xionghaifeng 20221001 HQ-208878 add for CN SSR set
+on property:ro.vendor.miui.build.region=cn
+    setprop persist.vendor.ssr.restart_level ALL_ENABLE
+
+on property:persist.odm.ril.oem.sno=*
+    setprop ro.ril.oem.sno ${persist.odm.ril.oem.sno}
+
+on property:persist.odm.ril.oem.psno=*
+    setprop ro.ril.oem.psno ${persist.odm.ril.oem.psno}
+
+on property:persist.odm.ril.oem.wifimac=*
+    setprop ro.ril.oem.wifimac ${persist.odm.ril.oem.wifimac}
+
+on property:persist.odm.ril.oem.btmac=*
+    setprop ro.ril.oem.btmac ${persist.odm.ril.oem.btmac}
+
+on property:persist.odm.ril.factory_id=*
+    setprop ro.ril.factory_id ${persist.odm.ril.factory_id}
+
+on property:persist.odm.ril.oem.imei1=*
+    setprop ro.ril.oem.imei1 ${persist.odm.ril.oem.imei1}
+
+on property:persist.odm.ril.oem.imei2=*
+    setprop ro.ril.oem.imei2 ${persist.odm.ril.oem.imei2}
+
+# M17-T code for HQ-238466 add by qianxiaoming at 2022/10/26 start
+on property:persist.odm.ril.oem.meid=*
+    setprop ro.ril.oem.meid ${persist.odm.ril.oem.meid}
+# M17-T code for HQ-238466 add by qianxiaoming at 2022/10/26 start
+
+on property:sys.boot.hwc=*
+    setprop ro.boot.hwc ${sys.boot.hwc}
+on property:sys.boot.cpuid=*
+    setprop ro.boot.cpuid ${sys.boot.cpuid}
+
 on property:init.svc.vendor.per_mgr=running
     start vendor.per_proxy
 
 on property:sys.shutdown.requested=*
     stop vendor.per_proxy
 
-service mi_thermald /system/vendor/bin/mi_thermald	
+# BSP.Charge - 2022.06.16 - add charge_logger start
+# add charge_logger service for dump charge message
+service charge_logger /vendor/bin/charge_logger
+    class last_start
+    user system
+    group system system wakelock
+    disabled
+    oneshot
+on property:sys.boot_completed=1
+    start charge_logger
+#M17 code for HQ-249309 by xuzhentao at 20221107 start
+    chmod 0664 /data/vendor/charge_logger/charge_logger_a.csv
+#M17 code for HQ-249309 by xuzhentao at 20221107 end
+# BSP.Charge - 2022.06.16 - add charge_logger end
+
+on property:vold.decrypt=trigger_restart_framework
+   start vendor.cnss_diag
+
+# add wlan/bt dingpin-service
+service wbrf_service /system/bin/wbrf_bin
+    class main
+    socket myguard stream 0660 system system
+    disabled
+service wbrf_service2 /system/bin/wbrf_bin2
+    class main
+    socket myguard2 stream 0660 system system
+    disabled
+
+service vendor.cnss_diag /system/vendor/bin/cnss_diag -q -f -t HELIUM
+   class main
+   user system
+   group system wifi inet sdcard_rw media_rw diag
+   oneshot
+
+service mi_thermald /system/vendor/bin/mi_thermald
     class main
     user root
     group system

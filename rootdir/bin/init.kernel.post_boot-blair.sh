@@ -71,28 +71,47 @@ function configure_zram_parameters() {
 	fi
 }
 
-function configure_memory_parameters() {
+function configure_read_ahead_kb_values() {
 	MemTotalStr=`cat /proc/meminfo | grep MemTotal`
 	MemTotal=${MemTotalStr:16:8}
+
+	dmpts=$(ls /sys/block/*/queue/read_ahead_kb | grep -e dm -e mmc)
+
+	# Set 128 for <= 3GB &
+	# set 512 for >= 4GB targets.
+	if [ $MemTotal -le 3145728 ]; then
+		ra_kb=128
+	else
+		ra_kb=512
+	fi
+	if [ -f /sys/block/mmcblk0/bdi/read_ahead_kb ]; then
+		echo $ra_kb > /sys/block/mmcblk0/bdi/read_ahead_kb
+	fi
+	if [ -f /sys/block/mmcblk0rpmb/bdi/read_ahead_kb ]; then
+		echo $ra_kb > /sys/block/mmcblk0rpmb/bdi/read_ahead_kb
+	fi
+	for dm in $dmpts; do
+		echo $ra_kb > $dm
+	done
+}
+
+function configure_memory_parameters() {
 	# Set Memory parameters.
 
 	# Set swappiness to 100 for all targets
-	#echo 100 > /proc/sys/vm/swappiness
-
-        # Set swappiness to 180 for all targets
-	echo 180 > /proc/sys/vm/swappiness
+	echo 100 > /proc/sys/vm/swappiness
 
 	# Disable wsf for all targets beacause we are using efk.
 	# wsf Range : 1..1000 So set to bare minimum value 1.
 	echo 1 > /proc/sys/vm/watermark_scale_factor
-	# Disable the feature of watermark boost for 8G and below device
-	if [ $MemTotal -le 8388608 ]; then
-		echo 0 > /proc/sys/vm/watermark_boost_factor
-	fi
 	configure_zram_parameters
-
-	#Spawn 2 kswapd threads which can help in fast reclaiming of pages
+	configure_read_ahead_kb_values
+        
+        #M17-T code for HQ-264248 by liuhelong at 2022/12/8 start
+	#Spawn 1 kswapd threads which can help in fast reclaiming of pages
 	echo 1 > /proc/sys/vm/kswapd_threads
+        #M17-T code for HQ-264248 by liuhelong at 2022/12/8 end
+        
 }
 
 # Core control parameters for silver
@@ -123,11 +142,10 @@ echo 5 > /proc/sys/kernel/sched_ravg_window_nr_ticks
 echo 20000000 > /proc/sys/kernel/sched_task_unfilter_period
 
 # cpuset parameters
-echo 0-2     > /dev/cpuset/background/cpus
-echo 0-3     > /dev/cpuset/system-background/cpus
-echo 4-7     > /dev/cpuset/foreground/boost/cpus
-echo 0-2,4-7 > /dev/cpuset/foreground/cpus
-echo 0-7     > /dev/cpuset/top-app/cpus
+echo 0-2 > /dev/cpuset/background/cpus
+echo 0-5 > /dev/cpuset/system-background/cpus
+echo 4-7 > /dev/cpuset/foreground/boost/cpus
+echo 0-7 > /dev/cpuset/top-app/cpus
 
 # Turn off scheduler boost at the end
 echo 0 > /proc/sys/kernel/sched_boost
@@ -160,7 +178,8 @@ echo 85 > /sys/devices/system/cpu/cpufreq/policy6/schedutil/hispeed_load
 # configure input boost settings
 echo "0:1516800" > /sys/devices/system/cpu/cpu_boost/input_boost_freq
 echo 120 > /sys/devices/system/cpu/cpu_boost/input_boost_ms
-echo "0:1804800 1:0 2:0 3:0 4:0 5:0 6:2208000 7:0" > /sys/devices/system/cpu/cpu_boost/powerkey_input_boost_freq
+
+echo "0:1804800 1:0 2:0 3:0 4:0 5:0 6:2016000 7:0" > /sys/devices/system/cpu/cpu_boost/powerkey_input_boost_freq
 echo 400 > /sys/devices/system/cpu/cpu_boost/powerkey_input_boost_ms
 
 # Enable bus-dcvs
@@ -227,3 +246,7 @@ echo N > /sys/module/lpm_levels/parameters/sleep_disabled
 configure_memory_parameters
 
 setprop vendor.post_boot.parsed 1
+
+# M17_T code for HQ-288927 by zhouxinyi at 2023-03-10 start
+echo 0 > /proc/sys/vm/panic_on_oom
+# M17_T code for HQ-288927 by zhouxinyi at 2023-03-10 end

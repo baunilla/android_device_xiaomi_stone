@@ -381,10 +381,25 @@ PRODUCT_PACKAGES += \
 
 # Rootdir
 PRODUCT_PACKAGES += \
+    charger_fstab.qti \
     fstab.default \
-    fstab.default.vendor_ramdisk \
-    init.kernel.post_boot-blair.sh \
+    fstab.default.vendor_ramdisk
+  
+PRODUCT_PACKAGES += \
+    init.class_main.sh \
+    init.kernel.post_boot.sh \
+    init.class_main.sh \
+    init.qcom.early_boot.sh \
+    init.qcom.post_boot.sh \
+    init.qcom.sh \
+    init.qti.display_boot.sh \
+    init.qti.early_init.sh \
+    init.qti.kernel.sh \
+    vendor_modprobe.sh
+
+PRODUCT_PACKAGES += \
     init.qcom.rc \
+    init.qti.display_boot.rc \
     init.qti.kernel.rc \
     init.recovery.qcom.rc \
     init.target.rc \

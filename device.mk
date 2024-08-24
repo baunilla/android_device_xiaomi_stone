@@ -204,6 +204,7 @@ PRODUCT_PACKAGES += \
 
 # Input
 PRODUCT_PACKAGES += \
+    gpio-keys.kl \
     uinput-fpc.idc \
     uinput-fpc.kl \
     uinput-goodix.idc \

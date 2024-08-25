@@ -420,9 +420,6 @@ case "$target" in
                 ;;
         esac
         ;;
-    "holi")
-        setprop vendor.media.target_variant "_holi"
-        ;;
 esac
 case "$target" in
        "msm8937")

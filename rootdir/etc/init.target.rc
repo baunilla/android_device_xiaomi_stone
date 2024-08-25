@@ -104,9 +104,6 @@ on post-fs-data
     mkdir /data/vendor/.tp/ 0775 system system
     mkdir /data/vendor/thermal 0771 root system
     mkdir /data/vendor/thermal/config 0771 root system
- 
-    # BSP.Charge - 2022.06.16 - add charge_logger
-    mkdir /data/vendor/charge_logger 0771 system system
     
     # BSP.System - 2022.6.3 - Add cust.img
     mkdir /mnt/cust 0775 system system
@@ -216,15 +213,9 @@ on boot
     chmod 0666 /mnt/vendor/persist/camera/rear_dc_cal_wd.bin
     chmod 0666 /data/vendor/camera/com.xiaomi.dcal.wu.data
 
-    # M17-T code for HQ-249321 by zhangzhaopei at 2022/10/21 start
-    setprop vendor.camera.aux.packagelist org.codeaurora.snapcam,com.huaqin.factory,com.xiaomi.cameratest,com.mi.AutoTest
-    # M17-T code for HQ-249321 by zhangzhaopei at 2022/10/21 end
-
-    # M17-T code for HQ-238216 by qiantao at 2022/11/3 start
     #touch funtions permissions setting
     chown system system /sys/class/touch/touch_dev/palm_sensor
     chmod 0664 /sys/class/touch/touch_dev/palm_sensor
-    # M17-T code for HQ-238216 by qiantao at 2022/11/3 end
 
 on property:vendor.display.lcd_density=560
    setprop dalvik.vm.heapgrowthlimit 256m
@@ -266,48 +257,9 @@ service vendor.per_proxy /vendor/bin/pm-proxy
     group system
     disabled
 
-#service vendor.mdm_helper /vendor/bin/mdm_helper
-#    class core
-#    group system wakelock
-#    disabled
-
 service vendor.mdm_launcher /vendor/bin/sh /vendor/bin/init.mdm.sh
     class core
     oneshot
-
-# xionghaifeng 20221104 HQ-261662 & HQ-253656 add for CN SSR set on IN
-on property:ro.vendor.miui.build.region=in
-    setprop persist.vendor.ssr.restart_level ALL_ENABLE
-
-# xionghaifeng 20221001 HQ-208878 add for CN SSR set
-on property:ro.vendor.miui.build.region=cn
-    setprop persist.vendor.ssr.restart_level ALL_ENABLE
-
-on property:persist.odm.ril.oem.sno=*
-    setprop ro.ril.oem.sno ${persist.odm.ril.oem.sno}
-
-on property:persist.odm.ril.oem.psno=*
-    setprop ro.ril.oem.psno ${persist.odm.ril.oem.psno}
-
-on property:persist.odm.ril.oem.wifimac=*
-    setprop ro.ril.oem.wifimac ${persist.odm.ril.oem.wifimac}
-
-on property:persist.odm.ril.oem.btmac=*
-    setprop ro.ril.oem.btmac ${persist.odm.ril.oem.btmac}
-
-on property:persist.odm.ril.factory_id=*
-    setprop ro.ril.factory_id ${persist.odm.ril.factory_id}
-
-on property:persist.odm.ril.oem.imei1=*
-    setprop ro.ril.oem.imei1 ${persist.odm.ril.oem.imei1}
-
-on property:persist.odm.ril.oem.imei2=*
-    setprop ro.ril.oem.imei2 ${persist.odm.ril.oem.imei2}
-
-# M17-T code for HQ-238466 add by qianxiaoming at 2022/10/26 start
-on property:persist.odm.ril.oem.meid=*
-    setprop ro.ril.oem.meid ${persist.odm.ril.oem.meid}
-# M17-T code for HQ-238466 add by qianxiaoming at 2022/10/26 start
 
 on property:sys.boot.hwc=*
     setprop ro.boot.hwc ${sys.boot.hwc}
@@ -320,33 +272,8 @@ on property:init.svc.vendor.per_mgr=running
 on property:sys.shutdown.requested=*
     stop vendor.per_proxy
 
-# BSP.Charge - 2022.06.16 - add charge_logger start
-# add charge_logger service for dump charge message
-service charge_logger /vendor/bin/charge_logger
-    class last_start
-    user system
-    group system system wakelock
-    disabled
-    oneshot
-on property:sys.boot_completed=1
-    start charge_logger
-#M17 code for HQ-249309 by xuzhentao at 20221107 start
-    chmod 0664 /data/vendor/charge_logger/charge_logger_a.csv
-#M17 code for HQ-249309 by xuzhentao at 20221107 end
-# BSP.Charge - 2022.06.16 - add charge_logger end
-
 on property:vold.decrypt=trigger_restart_framework
    start vendor.cnss_diag
-
-# add wlan/bt dingpin-service
-service wbrf_service /system/bin/wbrf_bin
-    class main
-    socket myguard stream 0660 system system
-    disabled
-service wbrf_service2 /system/bin/wbrf_bin2
-    class main
-    socket myguard2 stream 0660 system system
-    disabled
 
 service vendor.cnss_diag /system/vendor/bin/cnss_diag -q -f -t HELIUM
    class main

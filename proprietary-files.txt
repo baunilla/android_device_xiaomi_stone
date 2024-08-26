@@ -93,6 +93,25 @@ vendor/lib/libhdmipassthru.so
 vendor/lib/libqtigef.so
 vendor/lib/libssrec.so
 
+# Audio configs
+vendor/etc/audio/sku_holi/audio_effects.conf
+vendor/etc/audio/sku_holi/audio_io_policy.conf
+vendor/etc/audio/sku_holi/audio_platform_info.xml
+vendor/etc/audio/sku_holi/audio_platform_info_intcodec.xml
+vendor/etc/audio/sku_holi/audio_platform_info_qrd.xml
+vendor/etc/audio/sku_holi/bluetooth_qti_audio_policy_configuration.xml
+vendor/etc/audio/sku_holi/bluetooth_qti_hearing_aid_audio_policy_configuration.xml
+vendor/etc/audio/sku_holi/media_codecs_vendor_audio.xml
+vendor/etc/audio/sku_holi/mixer_paths.xml
+vendor/etc/audio/sku_holi/mixer_paths_qrd.xml
+vendor/etc/audio/sku_holi/mixer_paths_qrdsku1.xml
+vendor/etc/audio/sku_holi/mixer_paths_usbc.xml
+vendor/etc/audio/sku_holi/sound_trigger_mixer_paths.xml
+vendor/etc/audio/sku_holi/sound_trigger_mixer_paths_qrd.xml
+vendor/etc/audio/sku_holi/sound_trigger_mixer_paths_qrdsku1.xml
+vendor/etc/audio/sku_holi/sound_trigger_mixer_paths_usbc.xml
+vendor/etc/audio/sku_holi/sound_trigger_platform_info.xml
+
 # Audio FX modules
 vendor/lib/soundfx/libasphere.so
 vendor/lib/soundfx/libmisoundfx.so

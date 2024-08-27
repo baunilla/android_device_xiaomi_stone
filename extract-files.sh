@@ -1,8 +1,7 @@
 #!/bin/bash
 #
-# Copyright (C) 2016 The CyanogenMod Project
-# Copyright (C) 2017-2020 The LineageOS Project
-#
+# SPDX-FileCopyrightText: 2016 The CyanogenMod Project
+# SPDX-FileCopyrightText: 2017-2024 The LineageOS Project
 # SPDX-License-Identifier: Apache-2.0
 #
 
@@ -16,6 +15,10 @@ MY_DIR="${BASH_SOURCE%/*}"
 if [[ ! -d "${MY_DIR}" ]]; then MY_DIR="${PWD}"; fi
 
 ANDROID_ROOT="${MY_DIR}/../../.."
+
+# If XML files don't have comments before the XML header, use this flag
+# Can still be used with broken XML files by using blob_fixup
+# export TARGET_DISABLE_XML_FIXING=true
 
 HELPER="${ANDROID_ROOT}/tools/extract-utils/extract_utils.sh"
 if [ ! -f "${HELPER}" ]; then
@@ -32,19 +35,20 @@ SECTION=
 
 while [ "${#}" -gt 0 ]; do
     case "${1}" in
-        -n | --no-cleanup )
-                CLEAN_VENDOR=false
-                ;;
-        -k | --kang )
-                KANG="--kang"
-                ;;
-        -s | --section )
-                SECTION="${2}"; shift
-                CLEAN_VENDOR=false
-                ;;
-        * )
-                SRC="${1}"
-                ;;
+        -n | --no-cleanup)
+            CLEAN_VENDOR=false
+            ;;
+        -k | --kang)
+            KANG="--kang"
+            ;;
+        -s | --section)
+            SECTION="${2}"
+            shift
+            CLEAN_VENDOR=false
+            ;;
+        *)
+            SRC="${1}"
+            ;;
     esac
     shift
 done
@@ -60,22 +64,33 @@ function blob_fixup() {
             sed -i "s/android.media.audio.common.types-V2-cpp.so/android.media.audio.common.types-V3-cpp.so/" "${2}"
             ;;
         system_ext/lib64/libwfdnative.so)
+            [ "$2" = "" ] && return 0
             ${PATCHELF} --remove-needed "android.hidl.base@1.0.so" "${2}"
             ;;
         vendor/etc/camera/camxoverridesettings.txt)
+            [ "$2" = "" ] && return 0
             sed -i "s/0x10080/0/g" "${2}"
             sed -i "s/0x1F/0x0/g" "${2}"
             ;;
         vendor/etc/libnfc-hal-st.conf)
+            [ "$2" = "" ] && return 0
             sed -i "s/STNFC_HAL_LOGLEVEL=0x13/STNFC_HAL_LOGLEVEL=0x12/g" "${2}"
             ;;
         vendor/lib64/libvendor.goodix.hardware.biometrics.fingerprint@2.1.so)
+            [ "$2" = "" ] && return 0
             sed -i "s/libhidltransport.so/libhidlbase_shim.so/" "${2}"
             ;;
         vendor/lib64/camera/components/com.qti.node.mialgocontrol.so)
+            [ "$2" = "" ] && return 0
             grep -q "libpiex_shim.so" "${2}" || "${PATCHELF}" --add-needed "libpiex_shim.so" "${2}"
             ;;
     esac
+
+    return 0
+}
+
+function blob_fixup_dry() {
+    blob_fixup "$1" ""
 }
 
 # Initialize the helper

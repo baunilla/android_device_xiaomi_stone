@@ -518,7 +518,7 @@ vendor/etc/init/vendor.qti.hardware.capabilityconfigstore@1.0-service.rc
 vendor/lib64/hw/vendor.qti.hardware.capabilityconfigstore@1.0-impl.so
 
 # Consumer IR
-vendor/lib64/hw/consumerir.default.so:vendor/lib64/hw/consumerir.holi.so
+vendor/lib64/hw/consumerir.default.so:vendor/lib64/hw/consumerir.holi.so;FIX_SONAME
 
 # Diag
 system_ext/lib64/libdiag_system.so
@@ -636,10 +636,10 @@ vendor/lib64/vendor.qti.hardware.dsp@1.0.so
 vendor/lib64/vendor.qti.esepowermanager@1.0.so
 
 # Fingerprint (FPC)
-vendor/lib64/hw/fingerprint.fpc.so:vendor/lib64/hw/fingerprint.fpc.default.so
+vendor/lib64/hw/fingerprint.fpc.so:vendor/lib64/hw/fingerprint.fpc.default.so;FIX_SONAME
 
 # Fingerprint (Goodix)
-vendor/lib64/hw/fingerprint.goodix.so:vendor/lib64/hw/fingerprint.goodix.default.so
+vendor/lib64/hw/fingerprint.goodix.so:vendor/lib64/hw/fingerprint.goodix.default.so;FIX_SONAME
 vendor/lib64/libgf_ca.so
 vendor/lib64/libgf_hal.so
 vendor/lib64/libgoodixhwfingerprint.so

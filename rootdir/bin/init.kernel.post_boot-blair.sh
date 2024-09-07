@@ -101,6 +101,9 @@ function configure_memory_parameters() {
 	# Set swappiness to 100 for all targets
 	echo 100 > /proc/sys/vm/swappiness
 
+	# Set lz4 algorithm for zRAM compression
+	echo lz4 > /sys/block/zram0/comp_algorithm
+
 	# Disable wsf for all targets beacause we are using efk.
 	# wsf Range : 1..1000 So set to bare minimum value 1.
 	echo 1 > /proc/sys/vm/watermark_scale_factor

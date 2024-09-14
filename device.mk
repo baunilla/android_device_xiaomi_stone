@@ -46,23 +46,14 @@ PRODUCT_PACKAGES += \
 
 PRODUCT_PACKAGES += \
     audio.bluetooth.default \
-    audio.primary.holi \
     audio.r_submix.default \
     audio.usb.default \
 
 PRODUCT_PACKAGES += \
     audioadsprpcd \
-    liba2dpoffload \
-    libbatterylistener \
-    libcomprcapture \
-    libexthwplugin \
-    libhdmiedid \
-    libhfp \
     libqcompostprocbundle \
     libqcomvisualizer \
     libqcomvoiceprocessing \
-    libsndmonitor \
-    libspkrprot \
     libvolumelistener
 
 AUDIO_HAL_DIR := hardware/qcom-caf/sm8350/audio

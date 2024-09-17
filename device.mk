@@ -441,13 +441,6 @@ PRODUCT_PACKAGES += \
     android.frameworks.sensorservice@1.0.vendor \
     libsensorndkbridge
 
-# SKU properties
-PRODUCT_COPY_FILES += \
-    $(call find-copy-subdir-files,*,$(LOCAL_PATH)/configs/sku,$(TARGET_COPY_OUT_ODM)/etc)
-
-PRODUCT_COPY_FILES += \
-    $(call find-copy-subdir-files,*,$(LOCAL_PATH)/configs/sku,$(TARGET_COPY_OUT_RECOVERY)/root)
-
 # Shipping API level
 PRODUCT_SHIPPING_API_LEVEL := 30
 

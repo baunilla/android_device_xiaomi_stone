@@ -76,8 +76,8 @@ DEVICE_MATRIX_FILE := \
     hardware/qcom-caf/common/compatibility_matrix.xml
 
 # Init
-TARGET_INIT_VENDOR_LIB := //$(DEVICE_PATH):init_xiaomi_kona
-TARGET_RECOVERY_DEVICE_MODULES := init_xiaomi_kona
+TARGET_INIT_VENDOR_LIB := //$(DEVICE_PATH):init_xiaomi_stone
+TARGET_RECOVERY_DEVICE_MODULES := init_xiaomi_stone
 
 # Lineage Health
 TARGET_HEALTH_CHARGING_CONTROL_SUPPORTS_BYPASS := false

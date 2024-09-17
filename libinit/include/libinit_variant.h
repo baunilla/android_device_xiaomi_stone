@@ -11,19 +11,17 @@
 #include <vector>
 
 typedef struct variant_info {
-    std::string hwc_value;
     std::string sku_value;
 
     std::string brand;
     std::string device;
-    std::string marketname;
     std::string model;
+    std::string media;
     std::string build_fingerprint;
 
-    bool nfc;
 } variant_info_t;
 
-void search_variant(const std::vector<variant_info_t> variants);
+void search_variant(const std::vector<variant_info_t>& variants);
 
 void set_variant_props(const variant_info_t variant);
 

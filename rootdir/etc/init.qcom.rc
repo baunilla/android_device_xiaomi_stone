@@ -358,14 +358,6 @@ on post-fs-data
     chown radio radio /data/vendor/radio/db_check_done
     chmod 0660 /data/vendor/radio/db_check_done
 
-    # qti-logkit data
-    mkdir /data/vendor/qti-logkit/ 0771 system system
-    mkdir /data/vendor/qti-logkit/shared-privileged/ 2770 system system
-    mkdir /data/vendor/qti-logkit/shared-public/ 2770 system diag
-    mkdir /data/vendor/qti-logkit/socket-privileged/ 2770 system system
-    mkdir /data/vendor/qti-logkit/socket-public/ 2750 system diag
-    mkdir /data/vendor/qti-logkit/logdata/ 2750 system shell
-
     #Create SWAP related dirs
     mkdir /data/vendor/swap 0770 root system
     chmod 2770 /data/vendor/swap
@@ -935,38 +927,3 @@ on property:sys.tp.grip_enable=90
 on property:sys.tp.grip_enable=270
     write /sys/devices/platform/soc/4c88000.i2c/i2c-2/2-0038/fts_edge_mode 2
 #M17-T code for HQ-257580 add by baiyixin at 2022/10/26 end
-
-on property:sys.boot_completed=1
-    setprop qualcomm.qti.logkit.lite 1
-    mkdir /data/user/0/com.qualcomm.qti.logkit.lite/files/
-    copy /system/etc/qti_logkit_command.xml /data/user/0/com.qualcomm.qti.logkit.lite/qti_logkit_command.xml
-    copy /system/etc/qti_logkit_config.xml /data/user/0/com.qualcomm.qti.logkit.lite/qti_logkit_config.xml
-    mkdir /data/user/0/com.qualcomm.qti.logkit.lite/DMC
-    copy /system/etc/audiobasic.dmc /data/user/0/com.qualcomm.qti.logkit.lite/DMC/audiobasic.dmc
-    copy /system/etc/gnsslocationlogging.dmc /data/user/0/com.qualcomm.qti.logkit.lite/DMC/gnsslocationlogging.dmc
-    copy /system/etc/goldenlogmask.dmc /data/user/0/com.qualcomm.qti.logkit.lite/DMC/goldenlogmask.dmc
-    copy /system/etc/IMS.dmc /data/user/0/com.qualcomm.qti.logkit.lite/DMC/IMS.dmc
-    mkdir /data/user/0/com.qualcomm.qti.logkit.lite/scenarios
-    copy /system/etc/bluetooth.png /data/user/0/com.qualcomm.qti.logkit.lite/scenarios/bluetooth.png
-    copy /system/etc/default.png /data/user/0/com.qualcomm.qti.logkit.lite/scenarios/default.png
-    copy /system/etc/IMS.png /data/user/0/com.qualcomm.qti.logkit.lite/scenarios/IMS.png
-
-    chmod 0777 /sys/bus/coresight/devices/coresight-tmc-etr/block_size
-
-    chown system system /data/user/0/com.qualcomm.qti.logkit.lite/files/
-    chown system system /data/user/0/com.qualcomm.qti.logkit.lite/qti_logkit_command.xml
-    chown system system /data/user/0/com.qualcomm.qti.logkit.lite/qti_logkit_config.xml
-    chown system system /data/user/0/com.qualcomm.qti.logkit.lite/DMC
-    chown system system /data/user/0/com.qualcomm.qti.logkit.lite/DMC/audiobasic.dmc
-    chown system system /data/user/0/com.qualcomm.qti.logkit.lite/DMC/gnsslocationlogging.dmc
-    chown system system /data/user/0/com.qualcomm.qti.logkit.lite/DMC/goldenlogmask.dmc
-    chown system system /data/user/0/com.qualcomm.qti.logkit.lite/DMC/IMS.dmc
-    chown system system /data/user/0/com.qualcomm.qti.logkit.lite/scenarios
-    chown system system /data/user/0/com.qualcomm.qti.logkit.lite/scenarios/bluetooth.png
-    chown system system /data/user/0/com.qualcomm.qti.logkit.lite/scenarios/default.png
-    chown system system /data/user/0/com.qualcomm.qti.logkit.lite/scenarios/IMS.png
-
-#M17-U code for HQ-334585 by p-zhangtaijie at 20231204 start
-on property:persist.vendor.camera.check_memory_info=1
-    exec u:r:su:s0 -- /vendor/bin/check_cam_oom_adj
-#M17-U code for HQ-334585 by p-zhangtaijie at 20231204 end

@@ -104,26 +104,7 @@ on post-fs-data
     mkdir /data/vendor/.tp/ 0775 system system
     mkdir /data/vendor/thermal 0771 root system
     mkdir /data/vendor/thermal/config 0771 root system
-    
-    # BSP.System - 2022.6.3 - Add cust.img
-    mkdir /mnt/cust 0775 system system
-    mount ext4 /dev/block/platform/soc/4804000.ufshc/by-name/cust  /mnt/cust rw nosuid nodev barrier=1
-    chown system system /mnt/cust
-    chmod 0775 /mnt/cust
 
-	# BSP.System - 2022.6.3 - Add opcust.img
-    mkdir /mnt/opcust 0775 system system
-    mount ext4 /dev/block/platform/soc/4804000.ufshc/by-name/opcust  /mnt/opcust rw nosuid nodev barrier=1
-    chown system system /mnt/opcust
-    chmod 0775 /mnt/opcust
-    
-    # BSP.System - 2022.6.3 - Add opconfig.img
-    mkdir /mnt/opconfig 0775 system system
-    mount ext4 /dev/block/platform/soc/4804000.ufshc/by-name/opconfig  /mnt/opconfig rw nosuid nodev barrier=1
-    chown system system /mnt/opconfig
-    chmod 0775 /mnt/opconfig
-
-    #HQ-232630
    #QCC mode configuration
     setprop vendor.qti.qdma.oper.mode 3
     
@@ -236,10 +217,6 @@ on property:init.svc.vendor.charger=running
     #restart charger after ADSP is out of reset
     restart charger
     start vendor.power_off_alarm
-    setprop sys.usb.controller 4e00000.dwc3
-    setprop sys.usb.configfs 1
-
-    #thermal
     start mi_thermald
 
 #pd-mapper

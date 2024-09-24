@@ -1,5 +1,4 @@
 # Battery
-genfscon sysfs /devices/platform/soc/soc:qcom_wt_chg                               u:object_r:vendor_sysfs_battery_supply:s0
 
 # Extcon
 genfscon sysfs /devices/platform/soc/1628000.qcom,msm-eud/extcon                   u:object_r:sysfs_extcon:s0
@@ -20,18 +19,8 @@ genfscon sysfs /devices/platform/soc/soc:xm_pd_adapter/Charging_Adapter/pd_adapt
 genfscon sysfs /devices/platform/soc/soc:vibrator/leds/vibrator u:object_r:sysfs_leds:s0
 
 # Wakeup nodes
-genfscon sysfs /devices/platform/soc/4a80000.i2c/i2c-4/4-0055/wakeup u:object_r:sysfs_wakeup:s0
-genfscon sysfs /devices/platform/soc/4a80000.i2c/i2c-4/4-005a/wakeup u:object_r:sysfs_wakeup:s0
-genfscon sysfs /devices/platform/soc/4a80000.i2c/i2c-4/4-0066/wakeup u:object_r:sysfs_wakeup:s0
-genfscon sysfs /devices/platform/soc/4c90000.i2c/i2c-3/3-0028/wakeup u:object_r:sysfs_wakeup:s0
 genfscon sysfs /devices/platform/soc/4c90000.i2c/i2c-3/3-004e/tcpc/type_c_port0/dual-role-type_c_port0/wakeup u:object_r:sysfs_wakeup:s0
 genfscon sysfs /devices/platform/soc/4c90000.i2c/i2c-3/3-004e/tcpc/type_c_port0/wakeup u:object_r:sysfs_wakeup:s0
 genfscon sysfs /devices/platform/soc/4c90000.i2c/i2c-3/3-004e/wakeup u:object_r:sysfs_wakeup:s0
-genfscon sysfs /devices/platform/soc/4c90000.i2c/i2c-3/3-0066/wakeup u:object_r:sysfs_wakeup:s0
-genfscon sysfs /devices/platform/soc/4c90000.i2c/i2c-3/3-006a/wakeup u:object_r:sysfs_wakeup:s0
-# note: Labelling /devices/platform/soc/soc:fpc1020/wakeup relabels the wakeup_enable node
 genfscon sysfs /devices/platform/soc/soc:fpc1020/wakeup/wakeup u:object_r:sysfs_wakeup:s0
 genfscon sysfs /devices/platform/soc/soc:goodix_fp/wakeup u:object_r:sysfs_wakeup:s0
-genfscon sysfs /devices/platform/soc/soc:qcom_wt_chg/power_supply/battery/wakeup u:object_r:sysfs_wakeup:s0
-genfscon sysfs /devices/platform/soc/soc:qcom_wt_chg/power_supply/usb/wakeup u:object_r:sysfs_wakeup:s0
-genfscon sysfs /devices/platform/soc/soc:qcom_wt_chg/wakeup u:object_r:sysfs_wakeup:s0

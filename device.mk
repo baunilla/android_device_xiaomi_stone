@@ -293,10 +293,10 @@ PRODUCT_PACKAGES += \
     TelephonyOverlayCommon
 
 PRODUCT_PACKAGES += \
-    FrameworkOverlayStone \
-    SettingsOverlayStone \
-    SystemUIOverlayStone \
-    WifiOverlayStone
+    FrameworkOverlayTarget \
+    SettingsOverlayTarget \
+    SystemUIOverlayTarget \
+    WifiOverlayTarget
 
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/overlay/config-vendor.xml:$(TARGET_COPY_OUT_VENDOR)/overlay/config/config.xml

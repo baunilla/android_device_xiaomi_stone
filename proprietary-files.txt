@@ -545,7 +545,7 @@ vendor/lib64/libsdmextension.so
 vendor/lib64/libtinyxml2_1.so
 
 # Display calibration
--vendor/etc/qcom,mdss_dsi_m17_38_0c_0a_fhdp_dsc_vid_mi.xml
+-vendor/etc/qcom,mdss_dsi_m17_38_0c_0a_fhdp_dsc_vid_mi.xml;MODULE=qcom_mdss_dsi_m17_38_0c_0a_fhdp_dsc_vid_mi.xml
 vendor/etc/qdcm_calib_data_xiaomi_m17_38_0c_0a_fhd_dsc_video_dsi_panel.xml
 
 # Display postprocessing

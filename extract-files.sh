@@ -76,6 +76,10 @@ function blob_fixup() {
             [ "$2" = "" ] && return 0
             sed -i "s/STNFC_HAL_LOGLEVEL=0x13/STNFC_HAL_LOGLEVEL=0x12/g" "${2}"
             ;;
+        vendor/lib64/hw/fingerprint.goodix.default.so)
+            [ "$2" = "" ] && return 0
+            "${PATCHELF_0_17_2}" --set-soname fingerprint.goodix.default.so "${2}"
+            ;;
         vendor/lib64/libvendor.goodix.hardware.biometrics.fingerprint@2.1.so)
             [ "$2" = "" ] && return 0
             sed -i "s/libhidltransport.so/libhidlbase_shim.so/" "${2}"

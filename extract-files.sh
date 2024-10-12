@@ -61,13 +61,17 @@ fi
 
 function blob_fixup() {
     case "${1}" in
+        system_ext/lib*/libwfdmmsrc_system.so)
+            [ "$2" = "" ] && return 0
+            grep -q "libgui_shim.so" "${2}" || "${PATCHELF}" --add-needed "libgui_shim.so" "${2}"
+            ;;
         system_ext/lib*/libwfdservice.so)
             [ "$2" = "" ] && return 0
             sed -i "s/android.media.audio.common.types-V2-cpp.so/android.media.audio.common.types-V3-cpp.so/" "${2}"
             ;;
         system_ext/lib64/libwfdnative.so)
             [ "$2" = "" ] && return 0
-            ${PATCHELF} --remove-needed "android.hidl.base@1.0.so" "${2}"
+            sed -i "s/android.hidl.base@1.0.so/libinput_shim.so\x00\x00\x00\x00\x00\x00\x00\x00/" "${2}"
             ;;
         vendor/etc/camera/camxoverridesettings.txt)
             [ "$2" = "" ] && return 0

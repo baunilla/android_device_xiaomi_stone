@@ -23,12 +23,10 @@ PRODUCT_DEVICE := stone
 PRODUCT_MANUFACTURER := Xiaomi
 PRODUCT_MODEL := Redmi Note 12 5G
 PRODUCT_NAME := lineage_stone
-PRODUCT_SYSTEM_NAME := sunstone_global
 
 PRODUCT_GMS_CLIENTID_BASE := android-xiaomi
 
 PRODUCT_BUILD_PROP_OVERRIDES += \
-    PRIVATE_BUILD_DESC="sunstone_global-user 14 UKQ1.230917.001 V816.0.7.0.UMQMIXM release-keys" \
-    TARGET_PRODUCT=$(PRODUCT_SYSTEM_NAME)
-
-BUILD_FINGERPRINT := Redmi/sunstone_global/sunstone:14/UKQ1.230917.001/V816.0.7.0.UMQMIXM:user/release-keys
+    BuildDesc="sunstone_global-user 14 UKQ1.230917.001 V816.0.7.0.UMQMIXM release-keys" \
+    BuildFingerprint=Redmi/sunstone_global/sunstone:14/UKQ1.230917.001/V816.0.7.0.UMQMIXM:user/release-keys \
+    DeviceProduct=sunstone
